@@ -25,6 +25,7 @@
 	</target>
 	
 	<target name="compile" depends="init">
+                <mkdir dir="${classes.dir}" />
 		 <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="tarefas.class.path"/>
 		 <copy todir="${web.dir}/WEB-INF/lib">
 		 	<fileset dir="${lib.dir}"/>
