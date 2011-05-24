@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tarefas" default="compile" basedir=".">
+  <property name="src.dir" value="src/main/java"/>
+  <property name="resources.dir" value="src/main/resources"/>
+  <property name="web.dir" value="webapp"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="scripts.dir" value="scripts"/>
+	<property name="templates.dir" value="templates"/>
+	<property name="properties.dir" value="properties"/>
+	<property name="classes.dir" value="${web.dir}/WEB-INF/classes"/>
+	<property name="lib.dir" value="${web.dir}/WEB-INF/lib"/>
+	<property name="tomcat.dir" value="${user.name}/local/tomcat"/>
+	<property name="tomcat.app.dir" value="/Users/${user.name}/local/tomcat/webapps/tarefas"/>
+	<property name="package.file" value="tarefas.war"/>
+
+	<path id="tarefas.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<dirset dir="${basedir}"/>
+		<dirset dir="${classes.dir}"/>
+	</path>
+	
+	<target name="init">
+	</target>
+	
+	<target name="compile" depends="init">
+		 <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="tarefas.class.path"/>
+		 <copy todir="${web.dir}/WEB-INF/lib">
+		 	<fileset dir="${lib.dir}"/>
+		 </copy>
+		 <copy todir="${web.dir}/WEB-INF/classes">
+		 	<fileset dir="${resources.dir}"/>
+		 </copy>
+	</target>
+	
+	<target name="deployWebApplication">
+		<mkdir dir="${tomcat.app.dir}"/>
+		<copy todir="${tomcat.app.dir}">
+			<fileset dir="${web.dir}"/>		
+		</copy>
+	</target>
+
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+                <jar jarfile="${dist.dir}/${package.file}"
+                        basedir="${web.dir}"
+                        compress="true"
+                />
+	</target>
+</project>
